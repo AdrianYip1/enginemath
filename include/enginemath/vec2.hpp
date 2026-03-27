@@ -31,7 +31,8 @@ struct Vec2 {
 
     //Comparison
     constexpr bool operator==(const Vec2& other) const noexcept { return (x == other.x && y == other.y); }
-    constexpr bool operator!=(const Vec2& other) const noexcept { return (x!= other.x && y != other.y); }
+    constexpr bool operator!=(const Vec2& other) const noexcept { return (x!= other.x || y != other.y); }
+
     bool equal_within_decimals(const Vec2& other, const int num_points) const noexcept {
         float eps = std::pow(10.0f, -num_points); 
         return std::fabs(x - other.x) < eps && std::fabs(y - other.y) < eps;
@@ -41,6 +42,20 @@ struct Vec2 {
         return std::fabs(x - other.x) < eps && std::fabs(y - other.y) < eps;
     }
 
+    //Getters
+    float magnitude() const noexcept { return std::sqrt(x * x + y * y); }
+    constexpr float dot(const Vec2& other) const noexcept { return (x * other.x) + (y * other.y); }
+    constexpr float cross(const Vec2& other) const noexcept { return (x * other.y) - (other.x * y); }
+
+    Vec2 normalized() const { float mag = magnitude(); assert(mag > 0.0f); return *this / mag; }
+    void normalize() { *this = normalized(); }
+
+    static float distance(const Vec2& a, const Vec2& b) noexcept { return (b - a).magnitude(); }
+
+    // Clamping t to [0, 1]
+    static Vec2 lerp(const Vec2& a, const Vec2& b, float t) noexcept { assert(t >= 0 && t <= 1); return a + (b - a) * t; }
+
+    
 };
 
 } // namespace enginemath
