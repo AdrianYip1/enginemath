@@ -2,7 +2,6 @@
 
 #include <cassert>
 #include <cmath>
-#include <iostream>
 
 namespace enginemath {
 
@@ -18,6 +17,7 @@ struct Vec2 {
     //Simple Operations
     constexpr Vec2 operator+(const Vec2& other) const noexcept { return {x + other.x, y + other.y}; }
     constexpr Vec2 operator-(const Vec2& other) const noexcept { return {x - other.x, y - other.y}; }
+    constexpr Vec2 operator*(const Vec2& other) const noexcept { return {x * other.x, y * other.y}; }
     constexpr Vec2 operator*(float scalar) const noexcept { return {x * scalar, y * scalar}; }
 
     Vec2 operator/(float scalar) const { assert(scalar != 0.0f); return {x / scalar, y / scalar}; }
@@ -33,29 +33,37 @@ struct Vec2 {
     constexpr bool operator==(const Vec2& other) const noexcept { return (x == other.x && y == other.y); }
     constexpr bool operator!=(const Vec2& other) const noexcept { return (x!= other.x || y != other.y); }
 
-    bool equal_within_decimals(const Vec2& other, const int num_points) const noexcept {
+    [[nodiscard]] bool equal_within_decimals(const Vec2& other, const int num_points) const noexcept {
+        assert(num_points >= 0);
         float eps = std::pow(10.0f, -num_points); 
         return std::fabs(x - other.x) < eps && std::fabs(y - other.y) < eps;
     }
-    bool equal_within_tolerance(const Vec2& other, const float tolerance) const noexcept {
+    [[nodiscard]] bool equal_within_tolerance(const Vec2& other, const float tolerance) const noexcept {
         float eps = std::fabs(tolerance);
         return std::fabs(x - other.x) < eps && std::fabs(y - other.y) < eps;
     }
 
     //Getters
-    float magnitude() const noexcept { return std::sqrt(x * x + y * y); }
-    constexpr float dot(const Vec2& other) const noexcept { return (x * other.x) + (y * other.y); }
-    constexpr float cross(const Vec2& other) const noexcept { return (x * other.y) - (other.x * y); }
+    //MagnitudeSq is cheaper than finding full magnitude for comparison
+    [[nodiscard]] float magnitudeSq() const noexcept {return x*x + y*y; }
+    [[nodiscard]] float magnitude() const noexcept { return std::sqrt(x * x + y * y); }
+    [[nodiscard]] constexpr float dot(const Vec2& other) const noexcept { return (x * other.x) + (y * other.y); }
+    [[nodiscard]] constexpr float cross(const Vec2& other) const noexcept { return (x * other.y) - (other.x * y); }
 
-    Vec2 normalized() const { float mag = magnitude(); assert(mag > 0.0f); return *this / mag; }
+    [[nodiscard]] Vec2 normalized() const { float mag = magnitude(); assert(mag > 0.0f); return *this / mag; }
     void normalize() { *this = normalized(); }
 
-    static float distance(const Vec2& a, const Vec2& b) noexcept { return (b - a).magnitude(); }
+    [[nodiscard]] static float distance(const Vec2& a, const Vec2& b) noexcept { return (b - a).magnitude(); }
 
     // Clamping t to [0, 1]
-    static Vec2 lerp(const Vec2& a, const Vec2& b, float t) noexcept { assert(t >= 0 && t <= 1); return a + (b - a) * t; }
+    [[nodiscard]] static Vec2 lerp(const Vec2& a, const Vec2& b, float t) noexcept { assert(t >= 0 && t <= 1); return a + (b - a) * t; }
 
-    
+    //Directions
+    [[nodiscard]] constexpr static Vec2 up() noexcept { return Vec2(0, 1); }
+    [[nodiscard]] constexpr static Vec2 down() noexcept { return Vec2(0, -1); }
+    [[nodiscard]] constexpr static Vec2 left() noexcept { return Vec2(-1, 0); }
+    [[nodiscard]] constexpr static Vec2 right() noexcept { return Vec2(1, 0); }
+
 };
 
 } // namespace enginemath
