@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.15)
 project(enginemath VERSION 0.1.0 LANGUAGES CXX)
 
 include(GNUInstallDirs)
@@ -24,8 +24,10 @@ option(ENGINEMATH_BUILD_TESTS "Build enginemath tests" ${ENGINEMATH_IS_TOP_LEVEL
 option(ENGINEMATH_BUILD_EXAMPLES "Build enginemath examples" ${ENGINEMATH_IS_TOP_LEVEL})
 
 if(ENGINEMATH_BUILD_TESTS)
+    enable_testing()
     add_executable(enginemath_tests tests/test_vectors.cpp)
     target_link_libraries(enginemath_tests PRIVATE enginemath::enginemath)
+    add_test(NAME enginemath_tests COMMAND $<TARGET_FILE:enginemath_tests>)
 endif()
 
 if(ENGINEMATH_BUILD_EXAMPLES)
