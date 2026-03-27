@@ -25,7 +25,7 @@ int main() {
     assert(f.y == -8.0f);
 
     Vec2 v{3.0f, 4.0f};
-    Vec2 n = v.normalize();
+    Vec2 n = v.normalized();
     assert(std::fabs(n.x - 0.6f) < 1e-6f);
     assert(std::fabs(n.y - 0.8f) < 1e-6f);
 
