@@ -31,8 +31,8 @@ if(ENGINEMATH_BUILD_TESTS)
 endif()
 
 if(ENGINEMATH_BUILD_EXAMPLES)
-    add_executable(enginemath_example examples/basic.cpp)
-    target_link_libraries(enginemath_example PRIVATE enginemath::enginemath)
+    add_executable(basic examples/basic.cpp)
+    target_link_libraries(basic PRIVATE enginemath::enginemath)
 endif()
 
 install(TARGETS enginemath

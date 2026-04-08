@@ -6,13 +6,24 @@
 namespace enginemath {
 
 struct Vec2 {
-    float x{0.0f};
-    float y{0.0f};
+    union {
+        struct 
+        {
+            float x;
+            float y;
+        };
+
+        float data[2]; //Allows Vec2 to be accessed by name and index
+    };
 
     //Constructors
-    constexpr Vec2() noexcept = default;
-    constexpr Vec2(float x, float y) noexcept : x(x), y(y) {}
+    constexpr Vec2() noexcept : x(0.0f), y(0.0f) {}
+    constexpr Vec2(float _x, float _y) noexcept : x(_x), y(_y) {}
     explicit constexpr Vec2(float scalar) noexcept : x(scalar), y(scalar) {}
+
+    // "Array like" behaviour functions
+    [[nodiscard]] constexpr float operator[](size_t index) const { assert(index < 2); return data[index]; }
+    [[nodiscard]] constexpr float& operator[](size_t index) { assert(index < 2); return data[index]; } 
 
     //Simple Operations
     constexpr Vec2 operator+(const Vec2& other) const noexcept { return {x + other.x, y + other.y}; }
@@ -83,4 +94,6 @@ struct Vec2 {
 
 };
 
+inline constexpr Vec2 operator*(const float left, const Vec2& right) {return right * left;} // lets float * Vec2 be possible
 } // namespace enginemath
+
