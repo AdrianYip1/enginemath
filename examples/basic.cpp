@@ -22,6 +22,12 @@ int main() {
         std::cout << "testing array index for Vec2 one " << i << " is " << one[i] << "\n";
     }
 
+    one[0] = 6;
+    one[1] = 7;
+
+    for (int i = 0; i < 2; i++) {
+        std::cout << "testing array index for Vec2 one " << i << " is " << one[i] << "\n";
+    }
 
     return 0;
 }
