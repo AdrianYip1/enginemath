@@ -66,4 +66,6 @@ struct Vec2 {
 
 };
 
+inline constexpr Vec2 operator*(const float left, const Vec2& right) {return right * left;} // lets float * Vec2 be possible
 } // namespace enginemath
+
