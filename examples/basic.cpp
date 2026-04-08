@@ -18,6 +18,10 @@ int main() {
 
     std::cout << "dot result of " << one.x << ", " << one.y << " and "<< two.x << ", " << two.y << " is: "<< dotResult << "\n"; 
 
+    for (int i = 0; i < 2; i++) {
+        std::cout << "testing array index for Vec2 one " << i << " is " << one[i] << "\n";
+    }
+
 
     return 0;
 }

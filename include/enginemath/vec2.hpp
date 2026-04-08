@@ -21,6 +21,10 @@ struct Vec2 {
     constexpr Vec2(float _x, float _y) noexcept : x(_x), y(_y) {}
     explicit constexpr Vec2(float scalar) noexcept : x(scalar), y(scalar) {}
 
+    // "Array like" behaviour functions
+    [[nodiscard]] constexpr float operator[](size_t index) const { assert(index < 2); return data[index]; }
+    [[nodiscard]] constexpr float& operator[](size_t index) { assert(index < 2); return data[index]; } 
+
     //Simple Operations
     constexpr Vec2 operator+(const Vec2& other) const noexcept { return {x + other.x, y + other.y}; }
     constexpr Vec2 operator-(const Vec2& other) const noexcept { return {x - other.x, y - other.y}; }
