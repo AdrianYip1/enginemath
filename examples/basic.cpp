@@ -29,5 +29,11 @@ int main() {
         std::cout << "testing array index for Vec2 one " << i << " is " << one[i] << "\n";
     }
 
+    enginemath::Vec2 velocityDir(2, -1);
+    enginemath::Vec2 wall(5, 0);
+
+    velocityDir = velocityDir.reflectAcross(wall);
+    std::cout << velocityDir[0] << ", " << velocityDir[1];
+
     return 0;
 }

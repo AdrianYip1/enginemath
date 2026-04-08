@@ -30,6 +30,7 @@ struct Vec2 {
     constexpr Vec2 operator-(const Vec2& other) const noexcept { return {x - other.x, y - other.y}; }
     constexpr Vec2 operator*(const Vec2& other) const noexcept { return {x * other.x, y * other.y}; }
     constexpr Vec2 operator*(float scalar) const noexcept { return {x * scalar, y * scalar}; }
+    friend inline constexpr Vec2 operator*(const float left, const Vec2& right) {return right * left;} // lets float * Vec2 be possible
 
     Vec2 operator/(float scalar) const { assert(scalar != 0.0f); return {x / scalar, y / scalar}; }
 
@@ -78,7 +79,7 @@ struct Vec2 {
 
     [[nodiscard]] Vec2 reflectAcross(const Vec2& lineDir) const {
         Vec2 normal = lineDir.normalCCW().normalized();
-        return *this - 2 * (*this).projectOnto(normal);
+        return *this - 2.0f * (*this).projectOnto(normal);
     }
 
     // Clamping t to [0, 1]
@@ -94,6 +95,5 @@ struct Vec2 {
 
 };
 
-inline constexpr Vec2 operator*(const float left, const Vec2& right) {return right * left;} // lets float * Vec2 be possible
 } // namespace enginemath
 
