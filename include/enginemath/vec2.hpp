@@ -6,12 +6,19 @@
 namespace enginemath {
 
 struct Vec2 {
-    float x{0.0f};
-    float y{0.0f};
+    union {
+        struct 
+        {
+            float x;
+            float y;
+        };
+
+        float data[2]; //Allows Vec2 to be accessed by name and index
+    };
 
     //Constructors
-    constexpr Vec2() noexcept = default;
-    constexpr Vec2(float x, float y) noexcept : x(x), y(y) {}
+    constexpr Vec2() noexcept : x(0.0f), y(0.0f) {}
+    constexpr Vec2(float _x, float _y) noexcept : x(_x), y(_y) {}
     explicit constexpr Vec2(float scalar) noexcept : x(scalar), y(scalar) {}
 
     //Simple Operations
