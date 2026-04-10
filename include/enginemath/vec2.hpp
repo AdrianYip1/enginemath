@@ -61,8 +61,8 @@ struct Vec2 {
     [[nodiscard]] float magnitude() const noexcept { return std::sqrt(x * x + y * y); }
     [[nodiscard]] constexpr float dot(const Vec2& other) const noexcept { return (x * other.x) + (y * other.y); }
     [[nodiscard]] constexpr float cross(const Vec2& other) const noexcept { return (x * other.y) - (other.x * y); }
-    [[nodiscard]] constexpr Vec2 normalCCW() const { return {-y, x}; }
-    [[nodiscard]] constexpr Vec2 normalCW() const { return {y, -x}; }
+    [[nodiscard]] constexpr Vec2 perpCCW() const { return {-y, x}; }
+    [[nodiscard]] constexpr Vec2 perpCW() const { return {y, -x}; }
 
     [[nodiscard]] Vec2 normalized() const { float mag = magnitude(); assert(mag > 0.0f); return *this / mag; }
     void normalize() { *this = normalized(); }
@@ -78,7 +78,7 @@ struct Vec2 {
     //Reflection
 
     [[nodiscard]] Vec2 reflectAcross(const Vec2& lineDir) const {
-        Vec2 normal = lineDir.normalCCW().normalized();
+        Vec2 normal = lineDir.perpCCW().normalized();
         return *this - 2.0f * (*this).projectOnto(normal);
     }
 
@@ -90,8 +90,6 @@ struct Vec2 {
     [[nodiscard]] constexpr static Vec2 down() noexcept { return Vec2(0, -1); }
     [[nodiscard]] constexpr static Vec2 left() noexcept { return Vec2(-1, 0); }
     [[nodiscard]] constexpr static Vec2 right() noexcept { return Vec2(1, 0); }
-
-
 
 };
 
