@@ -35,12 +35,20 @@ namespace enginemath {
 
         //math
 
-        Vec4 operator*(const Vec4& right) const {
+        constexpr Vec4 operator*(const Vec4& right) const {
             return Vec4(
                 (*this).c0.x * right.x + (*this).c1.x * right.y + (*this).c2.x * right.z + (*this).c3.x * right.w,
                 (*this).c0.y * right.x + (*this).c1.y * right.y + (*this).c2.y * right.z + (*this).c3.y * right.w,
                 (*this).c0.z * right.x + (*this).c1.z * right.y + (*this).c2.z * right.z + (*this).c3.z * right.w,
                 (*this).c0.w * right.x + (*this).c1.w * right.y + (*this).c2.w * right.z + (*this).c3.w * right.w );
+        }
+
+        constexpr Mat4 operator*(const Mat4& right) const {
+            return Mat4(
+                (*this)*right.c0,
+                (*this)*right.c1,
+                (*this)*right.c2,
+                (*this)*right.c3 );
         }
         
     };
