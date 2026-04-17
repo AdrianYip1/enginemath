@@ -43,6 +43,6 @@ namespace enginemath {
                 (*this).c0.w * right.x + (*this).c1.w * right.y + (*this).c2.w * right.z + (*this).c3.w * right.w );
         }
         
-    }
+    };
 
 }// namespace enginemath
