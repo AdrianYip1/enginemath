@@ -32,9 +32,13 @@ namespace enginemath {
                 Vec4(0.0f, 1.0f, 0.0f, 0.0f), 
                 Vec4(0.0f, 0.0f, 1.0f, 0.0f), 
                 Vec4(0.0f, 0.0f, 0.0f, 1.0f) ); }
+            
+        // matrix transforms 
+        //translation
+        //scale
+        //rotation
 
         //math
-
         constexpr Vec4 operator*(const Vec4& right) const {
             return Vec4(
                 (*this).c0.x * right.x + (*this).c1.x * right.y + (*this).c2.x * right.z + (*this).c3.x * right.w,
