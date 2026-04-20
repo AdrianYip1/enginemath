@@ -38,7 +38,7 @@ namespace enginemath {
         //scale
         //rotation
 
-        //math
+        // Math Operations
         constexpr Vec4 operator*(const Vec4& right) const {
             return Vec4(
                 (*this).c0.x * right.x + (*this).c1.x * right.y + (*this).c2.x * right.z + (*this).c3.x * right.w,
