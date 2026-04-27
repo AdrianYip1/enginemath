@@ -16,7 +16,7 @@ namespace enginemath {
                         Vec4 c3;
                     };
 
-            float m[4][4]; // m[col][row]
+            float m[4][4]; // m[col][row]: columns go down
         };
 
         //constructor
@@ -35,8 +35,42 @@ namespace enginemath {
             
         // matrix transforms 
         //translation
+        constexpr Mat4 translationM(const float x, const float y, const float z) {
+            return Mat4(
+                Vec4(1.0f, 0.0f, 0.0f, 0.0f),
+                Vec4(0.0f, 1.0f, 0.0f, 0.0f),
+                Vec4(0.0f, 0.0f, 1.0f, 0.0f),
+                Vec4(x, y, z, 1.0f) ); }
+
         //scale
-        //rotation
+        Mat4 scaleM(const float x, const float y, const float z) {
+            return Mat4(
+                Vec4(x, 0.0f, 0.0f, 0.0f),
+                Vec4(0.0f, y, 0.0f, 0.0f),
+                Vec4(0.0f, 0.0f, z, 0.0f),
+                Vec4(0.0f, 0.0f, 0.0f, 1.0f) ); }
+
+        //rotation (theta is in radians)
+        Mat4 rotateX(const float theta) {
+            return Mat4(
+                Vec4(1.0f, 0.0f, 0.0f, 0.0f),
+                Vec4(0.0f, cos(theta), sin(theta), 0.0f),
+                Vec4(0.0f, -sin(theta), cos(theta), 0.0f),
+                Vec4(0.0f, 0.0f, 0.0f, 1.0f) ); }
+
+        Mat4 rotateY(const float theta) {
+            return Mat4(
+                Vec4(cos(theta), 0.0f, -sin(theta), 0.0f),
+                Vec4(0.0f, 1.0f, 0.0f, 0.0f),
+                Vec4(sin(theta), 0.0f, cos(theta), 0.0f),
+                Vec4(0.0f, 0.0f, 0.0f, 1.0f) ); }
+
+        Mat4 rotateZ(const float theta) {
+            return Mat4(
+                Vec4(cos(theta), sin(theta), 0.0f, 0.0f),
+                Vec4(-sin(theta), cos(theta), 0.0f, 0.0f),
+                Vec4(0.0f, 0.0f, 1.0f, 0.0f),
+                Vec4(0.0f, 0.0f, 0.0f, 1.0f) ); }
 
         // Math Operations
         constexpr Vec4 operator*(const Vec4& right) const {
