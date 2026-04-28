@@ -36,7 +36,7 @@ namespace enginemath {
             
         // matrix transforms 
         //translation
-        static constexpr Mat4 translationM(const float x, const float y, const float z) {
+        static constexpr Mat4 translationM(const float x, const float y, const float z) noexcept {
             return Mat4(
                 Vec4(1.0f, 0.0f, 0.0f, 0.0f),
                 Vec4(0.0f, 1.0f, 0.0f, 0.0f),
@@ -73,6 +73,36 @@ namespace enginemath {
                 Vec4(0.0f, 0.0f, 1.0f, 0.0f),
                 Vec4(0.0f, 0.0f, 0.0f, 1.0f) ); }
 
+        //Combines the rotation matrices, does Y -> X -> Z as the order
+        static Mat4 rotationM(const float thetaX, const float thetaY, const float thetaZ) noexcept {
+            return rotateY(thetaY) * rotateX(thetaX) * rotateZ(thetaZ); }
+
+        //projection matrix (returns the intrinsic/perspective matrix)
+        static Mat4 projectionM(const float fov, const float aspect, const float near, const float far) {
+            assert((fov != 0) && (aspect != 0) && ((far - near) != 0));
+
+            float fy = 1 / std::tan(fov / 2);
+            float fx = fy / aspect;
+            float A = -(far + near) / (far - near);
+            float B = -(2 * far * near) / (far - near);
+            return Mat4(
+                Vec4(fx, 0.0f, 0.0f, 0.0f),
+                Vec4(0.0f, fy, 0.0f, 0.0f),
+                Vec4(0.0f, 0.0f, A, -1.0f),
+                Vec4(0.0f, 0.0f, B, 0.0f) ); }
+
+        //view matrix (extrinsic)
+        static Mat4 viewM(const float thetaX, const float thetaY, const float thetaZ, const float x, 
+                    const float y, const float z) {
+            Mat4 rM = rotationM(thetaX, thetaY, thetaZ);
+            Mat4 tM = translationM(x, y, z);
+            return tM * rM; }
+
+        static Mat4 cameraM(const float fov, const float aspect, const float near, const float far, 
+                    const float thetaX, const float thetaY, const float thetaZ, 
+                    const float x, const float y, const float z) {
+            return projectionM(fov, aspect, near, far, thetaX, thetaY, thetaZ, x, y, z);
+        }
         // Math Operations
         constexpr Vec4 operator*(const Vec4& right) const {
             return Vec4(
