@@ -101,7 +101,7 @@ namespace enginemath {
         static Mat4 cameraM(const float fov, const float aspect, const float near, const float far, 
                     const float thetaX, const float thetaY, const float thetaZ, 
                     const float x, const float y, const float z) {
-            return projectionM(fov, aspect, near, far, thetaX, thetaY, thetaZ, x, y, z);
+            return projectionM(fov, aspect, near, far) * viewM(thetaX, thetaY, thetaZ, x, y, z);
         }
         // Math Operations
         constexpr Vec4 operator*(const Vec4& right) const {
@@ -119,6 +119,9 @@ namespace enginemath {
                 (*this)*right.c2,
                 (*this)*right.c3 );
         }
+
+        //OpenGL returning a pointer to the first float in the matrix which is c0.x
+        const float* data() const noexcept { return &c0.x; }
         
     };
 

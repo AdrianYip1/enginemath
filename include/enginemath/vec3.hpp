@@ -18,7 +18,7 @@ struct Vec3 {
     };
 
     //Constructors
-    constexpr Vec3() noexcept : x(0.0f), y(0.0f), z(0.0) {}
+    constexpr Vec3() noexcept : x(0.0f), y(0.0f), z(0.0f) {}
     constexpr Vec3(float _x, float _y, float _z) noexcept : x(_x), y(_y), z(_z) {}
     explicit constexpr Vec3(float scalar) noexcept : x(scalar), y(scalar), z(scalar) {}
 
