@@ -5,7 +5,6 @@ project(enginemath VERSION 0.1.0 LANGUAGES CXX)
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-# ---- Library ----
 add_library(enginemath INTERFACE)
 add_library(enginemath::enginemath ALIAS enginemath)
 
@@ -16,17 +15,14 @@ target_include_directories(enginemath INTERFACE
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-# ---- Top-level detection ----
 set(ENGINEMATH_IS_TOP_LEVEL OFF)
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(ENGINEMATH_IS_TOP_LEVEL ON)
 endif()
 
-# ---- Options ----
 option(ENGINEMATH_BUILD_TESTS "Build enginemath tests" ${ENGINEMATH_IS_TOP_LEVEL})
 option(ENGINEMATH_BUILD_EXAMPLES "Build enginemath examples" ${ENGINEMATH_IS_TOP_LEVEL})
 
-# ---- Tests ----
 if(ENGINEMATH_BUILD_TESTS)
     enable_testing()
     add_executable(enginemath_tests tests/test_vectors.cpp)
@@ -34,13 +30,11 @@ if(ENGINEMATH_BUILD_TESTS)
     add_test(NAME enginemath_tests COMMAND $<TARGET_FILE:enginemath_tests>)
 endif()
 
-# ---- Examples ----
 if(ENGINEMATH_BUILD_EXAMPLES)
     add_executable(basic examples/basic.cpp)
     target_link_libraries(basic PRIVATE enginemath::enginemath)
 endif()
 
-# ---- Install (safe guard so subdirectory builds don’t break) ----
 if(ENGINEMATH_IS_TOP_LEVEL)
 
     install(TARGETS enginemath EXPORT enginemathTargets)
