@@ -1,41 +1,75 @@
-cmake_minimum_required(VERSION 3.20)
-project(gameEngine)
+cmake_minimum_required(VERSION 3.15)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+project(enginemath VERSION 0.1.0 LANGUAGES CXX)
 
-# Force clean output folder
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
-# ---- EngineMath ----
-add_subdirectory(gameEngine/libraries/enginemath)
+# ---- Library ----
+add_library(enginemath INTERFACE)
+add_library(enginemath::enginemath ALIAS enginemath)
 
-# ---- Main executable ----
-add_executable(gameEngine
-    gameEngine/main.cpp
-    gameEngine/glad.c
+target_compile_features(enginemath INTERFACE cxx_std_17)
+
+target_include_directories(enginemath INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-# ---- Include paths ----
-target_include_directories(gameEngine PRIVATE
-    ${CMAKE_SOURCE_DIR}/gameEngine/libraries/include
-)
+# ---- Top-level detection ----
+set(ENGINEMATH_IS_TOP_LEVEL OFF)
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    set(ENGINEMATH_IS_TOP_LEVEL ON)
+endif()
 
-# ---- Platform-specific linking ----
-if (WIN32)
-    target_link_libraries(gameEngine PRIVATE
-        opengl32
-        ${CMAKE_SOURCE_DIR}/gameEngine/libraries/lib/glfw3.lib
-        enginemath::enginemath
+# ---- Options ----
+option(ENGINEMATH_BUILD_TESTS "Build enginemath tests" ${ENGINEMATH_IS_TOP_LEVEL})
+option(ENGINEMATH_BUILD_EXAMPLES "Build enginemath examples" ${ENGINEMATH_IS_TOP_LEVEL})
+
+# ---- Tests ----
+if(ENGINEMATH_BUILD_TESTS)
+    enable_testing()
+    add_executable(enginemath_tests tests/test_vectors.cpp)
+    target_link_libraries(enginemath_tests PRIVATE enginemath::enginemath)
+    add_test(NAME enginemath_tests COMMAND $<TARGET_FILE:enginemath_tests>)
+endif()
+
+# ---- Examples ----
+if(ENGINEMATH_BUILD_EXAMPLES)
+    add_executable(basic examples/basic.cpp)
+    target_link_libraries(basic PRIVATE enginemath::enginemath)
+endif()
+
+# ---- Install (safe guard so subdirectory builds don’t break) ----
+if(ENGINEMATH_IS_TOP_LEVEL)
+
+    install(TARGETS enginemath EXPORT enginemathTargets)
+
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/"
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     )
 
-elseif(UNIX)
-    find_package(OpenGL REQUIRED)
-    find_package(glfw3 REQUIRED)
-
-    target_link_libraries(gameEngine PRIVATE
-        OpenGL::GL
-        glfw
-        enginemath::enginemath
+    write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/enginemathConfigVersion.cmake"
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY SameMajorVersion
     )
+
+    configure_package_config_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/enginemathConfig.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/enginemathConfig.cmake"
+        INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/enginemath"
+    )
+
+    install(EXPORT enginemathTargets
+        NAMESPACE enginemath::
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/enginemath"
+    )
+
+    install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/enginemathConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/enginemathConfigVersion.cmake"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/enginemath"
+    )
+
 endif()
