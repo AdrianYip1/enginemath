@@ -15,9 +15,9 @@ namespace enginemath {
                         Vec4 c1;
                         Vec4 c2;
                         Vec4 c3;
-                    };
+                    } col; // do mat4.col.c0.x to access first element
 
-            float m[4][4]; // m[col][row]: columns go down
+            float m[4][4]; // mat4.m[col][row]: columns go down
         };
 
         //constructor
