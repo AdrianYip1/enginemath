@@ -22,7 +22,7 @@ namespace enginemath {
 
         //constructor
         constexpr Mat4(const Vec4& _c0, const Vec4& _c1, const Vec4& _c2, const Vec4& _c3) noexcept : 
-            c0(_c0), c1(_c1), c2(_c2), c3(_c3) {}
+            col.c0(_c0), col.c1(_c1), col.c2(_c2), col.c3(_c3) {}
 
 
         // important matrices
