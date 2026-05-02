@@ -22,7 +22,7 @@ namespace enginemath {
 
         //constructor
         constexpr Mat4(const Vec4& _c0, const Vec4& _c1, const Vec4& _c2, const Vec4& _c3) noexcept : 
-            col.c0(_c0), col.c1(_c1), col.c2(_c2), col.c3(_c3) {}
+            col{_c0, _c1, _c2, _c3} {}
 
 
         // important matrices
@@ -121,7 +121,7 @@ namespace enginemath {
         }
 
         //OpenGL returning a pointer to the first float in the matrix which is c0.x
-        const float* data() const noexcept { return &c0.x; }
+        const float* data() const noexcept { return &col.c0.x; }
         
     };
 
