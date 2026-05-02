@@ -77,6 +77,16 @@ namespace enginemath {
         static Mat4 rotationM(const float thetaX, const float thetaY, const float thetaZ) noexcept {
             return rotateY(thetaY) * rotateX(thetaX) * rotateZ(thetaZ); }
 
+        // orthographic projection matrix
+        static Mat4 orthoM(const float left, const float right, const float top, const float bottom, const float far, const float near) {
+            assert ((left != right) && (top != bottom) && (far != near));
+
+            Mat4 translation = translationM(-(right + left) / 2, -(top + bottom) / 2, -(far + near) / 2);
+            Mat4 scale = scaleM(2 / (right - left), 2 / (top - bottom), -2 / (far - near)); // forward is -Z in openGL
+
+            return scale * translation; // Translate first then scale to obtain the box with bounds [-1, 1]
+        }
+
         //projection matrix (returns the intrinsic/perspective matrix)
         static Mat4 projectionM(const float fov, const float aspect, const float near, const float far) {
             assert((fov != 0) && (aspect != 0) && ((far - near) != 0));
