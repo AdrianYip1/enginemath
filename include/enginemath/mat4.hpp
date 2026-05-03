@@ -75,7 +75,7 @@ namespace enginemath {
 
         //Combines the rotation matrices, does Y -> X -> Z as the order
         static Mat4 rotationM(const float thetaX, const float thetaY, const float thetaZ) noexcept {
-            return rotateY(thetaY) * rotateX(thetaX) * rotateZ(thetaZ); }
+            return rotateZ(thetaZ) * rotateX(thetaX) * rotateY(thetaY); }
 
         // orthographic projection matrix
         static Mat4 orthoM(const float left, const float right, const float top, const float bottom, const float far, const float near) {
@@ -105,8 +105,8 @@ namespace enginemath {
         static Mat4 viewM(const float thetaX, const float thetaY, const float thetaZ, const float x, 
                     const float y, const float z) {
             Mat4 rM = rotationM(thetaX, thetaY, thetaZ);
-            Mat4 tM = translationM(x, y, z);
-            return tM * rM; }
+            Mat4 tM = translationM(-x, -y, -z);
+            return rM * tM; }
 
         static Mat4 cameraM(const float fov, const float aspect, const float near, const float far, 
                     const float thetaX, const float thetaY, const float thetaZ, 
