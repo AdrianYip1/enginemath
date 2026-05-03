@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cmath>
 #include "vec4.hpp"
+#include "vec3.hpp"
 
 
 namespace enginemath {
@@ -118,6 +119,22 @@ namespace enginemath {
             Mat4 rM = rotationM(thetaX, thetaY, thetaZ);
             Mat4 tM = translationM(x, y, -z);
             return rM * tM; }
+
+        //look at matrix (specify camera pos, target pos, up vector in world coordinates)
+        static Mat4 lookAtM(const Vec3& cameraPos, const Vec3& targetPos, const Vec3& upVec) {
+            Vec3 cameraDir = (cameraPos - targetPos).normalized();
+            Vec3 cameraRight = upVec.cross(cameraDir).normalized();
+            Vec3 cameraUp = cameraDir.cross(cameraRight).normalized();
+
+            Mat4 rotation = Mat4(
+                Vec4(cameraRight.x, cameraUp.x, cameraDir.x, 0.0f),
+                Vec4(cameraRight.y, cameraUp.y, cameraDir.y, 0.0f),
+                Vec4(cameraRight.z, cameraUp.z, cameraDir.z, 0.0f),
+                Vec4(0.0f, 0.0f, 0.0f, 1.0f) );
+
+            Mat4 translation = translationM(-cameraPos);
+            return rotation * translation;
+        }
 
         static Mat4 cameraM(const float fov, const float aspect, const float near, const float far, 
                     const float thetaX, const float thetaY, const float thetaZ, 
