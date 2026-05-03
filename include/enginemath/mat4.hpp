@@ -24,7 +24,6 @@ namespace enginemath {
         constexpr Mat4(const Vec4& _c0, const Vec4& _c1, const Vec4& _c2, const Vec4& _c3) noexcept : 
             col{_c0, _c1, _c2, _c3} {}
 
-
         // important matrices
         static constexpr Mat4 zero() noexcept { return Mat4(Vec4(0.0f), Vec4(0.0f), Vec4(0.0f), Vec4(0.0f) ); }
         static constexpr Mat4 identity() noexcept { 
@@ -42,6 +41,10 @@ namespace enginemath {
                 Vec4(0.0f, 1.0f, 0.0f, 0.0f),
                 Vec4(0.0f, 0.0f, 1.0f, 0.0f),
                 Vec4(x, y, z, 1.0f) ); }
+        
+        // overloading translationM with Vec3
+        static constexpr Mat4 translationM(const Vec3& v) noexcept {
+            return translationM(v.x, v.y, v.z); }
 
         //scale
         static constexpr Mat4 scaleM(const float x, const float y, const float z) noexcept {
@@ -50,6 +53,10 @@ namespace enginemath {
                 Vec4(0.0f, y, 0.0f, 0.0f),
                 Vec4(0.0f, 0.0f, z, 0.0f),
                 Vec4(0.0f, 0.0f, 0.0f, 1.0f) ); }
+
+        // overloading scaleM with Vec3
+        static constexpr Mat4 scaleM(const Vec3& v) noexcept {
+            return scaleM(v.x, v.y, v.z); }
 
         //rotation (theta is in radians)
         static Mat4 rotateX(const float theta) noexcept {
@@ -76,6 +83,10 @@ namespace enginemath {
         //Combines the rotation matrices, does Y -> X -> Z as the order
         static Mat4 rotationM(const float thetaX, const float thetaY, const float thetaZ) noexcept {
             return rotateZ(thetaZ) * rotateX(thetaX) * rotateY(thetaY); }
+        
+        // overloading rotationM with Vec3 (theta in radians)
+        static constexpr Mat4 rotationM(const Vec3& v) noexcept {
+            return scaleM(v.x, v.y, v.z); }
 
         // orthographic projection matrix
         static Mat4 orthoM(const float left, const float right, const float top, const float bottom, const float far, const float near) {
