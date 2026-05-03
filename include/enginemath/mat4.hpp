@@ -101,11 +101,11 @@ namespace enginemath {
                 Vec4(0.0f, 0.0f, A, -1.0f),
                 Vec4(0.0f, 0.0f, B, 0.0f) ); }
 
-        //view matrix (extrinsic)
+        //view matrix (my convention is +X is right, +Y is up, +Z is forward)
         static Mat4 viewM(const float thetaX, const float thetaY, const float thetaZ, const float x, 
                     const float y, const float z) {
             Mat4 rM = rotationM(thetaX, thetaY, thetaZ);
-            Mat4 tM = translationM(-x, -y, -z);
+            Mat4 tM = translationM(x, y, -z);
             return rM * tM; }
 
         static Mat4 cameraM(const float fov, const float aspect, const float near, const float far, 
