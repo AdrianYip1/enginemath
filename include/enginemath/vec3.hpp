@@ -14,7 +14,7 @@ struct Vec3 {
             float z;
         };
 
-        float data[3]; //Allows Vec4 to be accessed by name and index
+        float elements[3]; //Allows Vec3 to be accessed by name and index
     };
 
     //Constructors
@@ -23,8 +23,8 @@ struct Vec3 {
     explicit constexpr Vec3(float scalar) noexcept : x(scalar), y(scalar), z(scalar) {}
 
     // "Array like" behaviour functions
-    [[nodiscard]] constexpr float operator[](size_t index) const { assert(index < 3); return data[index]; }
-    [[nodiscard]] constexpr float& operator[](size_t index) { assert(index < 3); return data[index]; } 
+    [[nodiscard]] constexpr float operator[](size_t index) const { assert(index < 3); return elements[index]; }
+    [[nodiscard]] constexpr float& operator[](size_t index) { assert(index < 3); return elements[index]; } 
 
     //Simple Operations
     constexpr Vec3 operator+(const Vec3& other) const noexcept { return {x + other.x, y + other.y, z + other.z}; }
