@@ -124,7 +124,7 @@ namespace enginemath {
         static Mat4 lookAtM(const Vec3& cameraPos, const Vec3& targetPos, const Vec3& upVec) {
             Vec3 cameraDir = (cameraPos - targetPos).normalized();
             Vec3 cameraRight = upVec.cross(cameraDir).normalized();
-            Vec3 cameraUp = cameraDir.cross(cameraRight).normalized();
+            Vec3 cameraUp = cameraRight.cross(cameraDir).normalized();;
 
             Mat4 rotation = Mat4(
                 Vec4(cameraRight.x, cameraUp.x, cameraDir.x, 0.0f),
