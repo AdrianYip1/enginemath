@@ -1,71 +1,61 @@
-# enginemath
+EngineMath
 
-A small, header-only C++17 math library for game development.
+Lightweight C++ math library used across my game engine projects.
 
-## What you get
+EngineMath will provide mathematical types and operations commonly required for rendering, physics, and general engine systems while remaining independent from graphics APIs. Currently EngineMath contains simple operations across Vec2, vec3, Vec4, and Mat4.
 
-`enginemath` is header-only. The main type right now is `enginemath::Vec2`.
+Features
+Vector math (Vec2, Vec3, Vec4)
+Matrix math (Mat4)
+Transform utilities
+Header-only design
+No external dependencies
+Designed for reuse via Git submodules
+Repository Structure:
+EngineMath/
+│
+├── include/
+│   └── enginemath/
+│       ├── vec2.h
+│       ├── vec3.h
+│       ├── vec4.h
+│       ├── mat4.h
+│       └── math_utils.h
+│
+├── examples/
+├── tests/
+└── README.md
+Installation (w/ Git Submodule)
 
-In CMake, you link to the target `enginemath::enginemath`. Even though it’s header-only, this is still useful because it:
+EngineMath is intended to be added to projects as a Git submodule.
 
-- Adds the correct include path (`#include <enginemath/...>`)
-- Sets the required C++ standard (C++17)
+1. Add Submodule
 
-## Use in code
+From your engine or game repository:
 
-```cpp
-#include <enginemath/enginemath.hpp>
+git submodule add https://github.com/YOUR_USERNAME/EngineMath.git external/EngineMath
 
-enginemath::Vec2 a{1.0f, 2.0f};
-enginemath::Vec2 b{3.0f, 4.0f};
-auto c = a + b;
-```
+Then initialize:
 
-## Use in CMake (pick ONE)
+git submodule update --init --recursive
+2. Include in Your Project
 
-### Option A: Vendor it (recommended simplest)
+Add the include directory to your compiler:
 
-Put this repo in your project, for example at `external/enginemath/`, then:
+CMake
+target_include_directories(MyEngine PRIVATE
+    external/EngineMath/include
+)
 
-```cmake
-add_subdirectory(external/enginemath)
-target_link_libraries(your_target PRIVATE enginemath::enginemath)
-```
+3. Use in Code
+#include <enginemath/vec3.h>
 
-### Option B: Install + `find_package`
+using namespace enginemath;
 
-Build and install enginemath somewhere:
+Vec3 position(1.0f, 2.0f, 3.0f);
+Updating the Submodule
 
-```bash
-cmake -S enginemath -B enginemath/build
-cmake --build enginemath/build
-cmake --install enginemath/build --prefix <install-dir>
-```
+To pull EngineMath changes:
 
-Then, in your project:
+git submodule update --remote --merge
 
-```cmake
-find_package(enginemath CONFIG REQUIRED)
-target_link_libraries(your_target PRIVATE enginemath::enginemath)
-```
-
-And configure your project with a prefix so CMake can find it:
-
-```bash
-cmake -S . -B build -DCMAKE_PREFIX_PATH=<install-dir>
-```
-
-## Testing
-
-```bash
-cmake -S . -B build -DENGINEMATH_BUILD_TESTS=ON
-cmake --build build
-ctest --test-dir build
-```
-
-## Examples
-
-```bash
-cmake -S . -B build -DENGINEMATH_BUILD_EXAMPLES=ON
-cmake --build build
-```
