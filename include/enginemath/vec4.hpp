@@ -55,6 +55,8 @@ struct Vec4 {
 
     static Vec3 toVec3(const Vec4& vector) {return Vec3(vector.x, vector.y, vector.z); }
 
+    const float* data() const noexcept { return &(*this).x; }
+
     };
 
 

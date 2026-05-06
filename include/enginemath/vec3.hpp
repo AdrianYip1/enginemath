@@ -94,6 +94,8 @@ struct Vec3 {
 
     [[nodiscard]] constexpr static Vec3 forward() noexcept { return Vec3(0, 0, 1); } //upZ
     [[nodiscard]] constexpr static Vec3 backward() noexcept { return Vec3(0, 0, -1); } //downZ
+
+    const float* data() const noexcept { return &(*this).x; }
 };
 
 } // namespace enginemath
