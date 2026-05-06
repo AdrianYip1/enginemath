@@ -11,20 +11,8 @@ Transform utilities
 Header-only design
 No external dependencies
 Designed for reuse via Git submodules
-Repository Structure:
-EngineMath/
-│
-├── include/
-│   └── enginemath/
-│       ├── vec2.h
-│       ├── vec3.h
-│       ├── vec4.h
-│       ├── mat4.h
-│       └── math_utils.h
-│
-├── examples/
-├── tests/
-└── README.md
+
+
 Installation (w/ Git Submodule)
 
 EngineMath is intended to be added to projects as a Git submodule.
