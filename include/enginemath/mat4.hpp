@@ -86,7 +86,7 @@ namespace enginemath {
             return rotateZ(thetaZ) * rotateX(thetaX) * rotateY(thetaY); }
         
         // overloading rotationM with Vec3 (theta in radians)
-        static constexpr Mat4 rotationM(const Vec3& v) noexcept {
+        static Mat4 rotationM(const Vec3& v) noexcept {
             return rotationM(v.x, v.y, v.z); }
 
         // orthographic projection matrix
