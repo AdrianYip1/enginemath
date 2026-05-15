@@ -91,6 +91,8 @@ struct Vec2 {
     [[nodiscard]] constexpr static Vec2 left() noexcept { return Vec2(-1, 0); }
     [[nodiscard]] constexpr static Vec2 right() noexcept { return Vec2(1, 0); }
 
+    const float* data() const noexcept { return &(*this).x; }
+
 };
 
 } // namespace enginemath
