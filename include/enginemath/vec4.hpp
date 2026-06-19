@@ -44,6 +44,7 @@ struct Vec4 {
     Vec4& operator*=(float scalar) noexcept { x *= scalar; y *= scalar; z *= scalar; w *= scalar; return *this; }
     Vec4& operator/=(float scalar) { assert(scalar != 0.0f); x /= scalar; y /= scalar; z /= scalar; w /= scalar; return *this; }
 
+    // TODO: dot, componentwise operator*(Vec4), mag, normalize, lerp, equal_within
     //Comparison
     constexpr bool operator==(const Vec4& other) const noexcept { return (x == other.x && y == other.y && z == other.z && w == other.w); }
     constexpr bool operator!=(const Vec4& other) const noexcept { return (x!= other.x || y != other.y || z != other.z || w != other.w); }

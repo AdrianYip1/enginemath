@@ -158,6 +158,8 @@ namespace enginemath {
                 (*this)*right.col.c3 );
         }
 
+        // TODO: inverse, transpose
+
         //OpenGL returning a pointer to the first float in the matrix which is c0.x
         const float* data() const noexcept { return &col.c0.x; }
         

@@ -26,7 +26,7 @@ EngineMath is intended to be added to projects as a Git submodule.
 From your engine or game repository:
 
 ```bash
-git submodule add https://github.com/YOUR_USERNAME/EngineMath.git external/EngineMath
+git submodule add https://github.com/AdrianYip1119/EngineMath.git external/EngineMath
 ```
 
 Then initialize:
@@ -50,7 +50,7 @@ target_include_directories(MyEngine PRIVATE
 ### 3. Use in Code
 
 ```cpp
-#include <enginemath/vec3.h>
+#include <enginemath/vec3.hpp>
 using namespace enginemath;
 
 Vec3 position(1.0f, 2.0f, 3.0f);
