@@ -26,7 +26,7 @@ EngineMath is intended to be added to projects as a Git submodule.
 From your engine or game repository:
 
 ```bash
-git submodule add https://github.com/AdrianYip1119/EngineMath.git external/EngineMath
+git submodule add https://github.com/AdrianYip1/EngineMath.git external/EngineMath
 ```
 
 Then initialize:
