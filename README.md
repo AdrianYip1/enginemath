@@ -26,7 +26,7 @@ EngineMath is intended to be added to projects as a Git submodule.
 From your engine or game repository:
 
 ```bash
-git submodule add https://github.com/AdrianYip1/EngineMath.git external/EngineMath
+git submodule add https://github.com/AdrianYip1/enginemath.git external/enginemath
 ```
 
 Then initialize:
@@ -43,7 +43,7 @@ Add the include directory to your compiler.
 
 ```cmake
 target_include_directories(MyEngine PRIVATE
-    external/EngineMath/include
+    external/enginemath/include
 )
 ```
 
@@ -60,7 +60,7 @@ Vec3 position(1.0f, 2.0f, 3.0f);
 
 ## Updating the Submodule
 
-To pull the latest EngineMath changes into your project:
+To pull the latest enginemath changes into your project:
 
 ```bash
 git submodule update --remote --merge
