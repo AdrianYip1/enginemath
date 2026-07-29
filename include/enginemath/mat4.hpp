@@ -99,14 +99,22 @@ namespace enginemath {
             return scale * translation; // Translate first then scale to obtain the box with bounds [-1, 1]
         }
 
-        //projection matrix (returns the intrinsic/perspective matrix)
+        //projection matrix (returns the intrinsic/perspective matrix) 
         static Mat4 projectionM(const float fov, const float aspect, const float near, const float far) {
             assert((fov != 0) && (aspect != 0) && ((far - near) != 0));
 
             float fy = 1 / std::tan(fov / 2);
             float fx = fy / aspect;
-            float A = -(far + near) / (far - near);
-            float B = -(2 * far * near) / (far - near);
+
+            // Depth zero to one is for Vulkan as OpenGL's depth is -1.0 to 1.0 while
+            // Vulkan uses 0.0 to 1.0
+            #ifdef ENGINEMATH_DEPTH_ZERO_TO_ONE
+                float A = -far / (far - near);
+                float B = -(far * near) / (far - near);
+            #else
+                float A = -(far + near) / (far - near);
+                float B = -(2 * far * near) / (far - near);
+            #endif
             return Mat4(
                 Vec4(fx, 0.0f, 0.0f, 0.0f),
                 Vec4(0.0f, fy, 0.0f, 0.0f),
